@@ -18,6 +18,10 @@ This project implements a todo application in Python with in-memory storage. It 
 
 - `.claude/` - Claude Code configuration
 - `.specify/` - SpecKit Plus templates and scripts
+- `specs/` - Feature specifications and plans
+- `history/` - History of decisions and prompts
+  - `history/adr/` - Architecture Decision Records
+  - `history/prompts/` - Prompt History Records
 - `CLAUDE.md` - Claude Code rules and project instructions
 - `README.md` - This file
 
@@ -53,7 +57,3 @@ This project implements a todo application in Python with in-memory storage. It 
 ## License
 
 [Add license information if applicable]
-
-## Contributors
-
-- Claude (AI Assistant) - Initial setup and README creation
