@@ -208,3 +208,6 @@ Wait for consent; never auto-create ADRs. Group related decisions (stacks, authe
 
 ## Code Standards
 See `.specify/memory/constitution.md` for code quality, testing, performance, security, and architecture principles.
+
+## AI Contribution Tracking
+This project uses AI assistance for development. When committing changes made with AI help, use the co-author tag to properly attribute contributions.
