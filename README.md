@@ -53,3 +53,7 @@ This project implements a todo application in Python with in-memory storage. It 
 ## License
 
 [Add license information if applicable]
+
+## Contributors
+
+- Claude (AI Assistant) - Initial setup and README creation
