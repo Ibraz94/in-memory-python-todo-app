@@ -1,15 +1,14 @@
 <!--
 Sync Impact Report:
-- Version change: 1.0.0 → 2.0.0
-- Modified principles: All principles updated to align with spec-driven development requirements
-- Added sections: Technical Constraints, Feature Scope, Project Purpose
+- Version change: 2.0.0 → 2.1.0
+- Modified principles: Added new principle for Rich library requirement (XI), shifted existing principles
+- Added sections: Enhanced Terminal UI with Rich Library requirement (XI)
 - Removed sections: None
 - Templates requiring updates:
   - .specify/templates/plan-template.md ✅ updated
   - .specify/templates/spec-template.md ✅ updated
   - .specify/templates/tasks-template.md ✅ updated
-  - .specify/templates/commands/*.md ✅ updated
-- Follow-up TODOs: None
+- Follow-up TODOs: Update implementation to use Rich library instead of basic print statements
 -->
 
 # Todo In-Memory Python Console Application Constitution
@@ -52,23 +51,26 @@ All todos must be stored strictly in memory. No persistent storage mechanisms (f
 ### X. Terminal-Only Interface (MANDATORY)
 The application must run entirely in the terminal. No GUI, web interface, or other external interfaces are permitted. All user interaction must occur through command-line input and output.
 
+### XI. Enhanced Terminal UI with Rich Library (MANDATORY)
+All terminal user interactions must be implemented using the Python Rich library. This includes interactive questionnaires, menu selection, confirmation prompts, and formatted output such as tables and status indicators. Plain input()-based interactions are strictly prohibited. The Rich library provides enhanced formatting, colors, tables, progress bars, and other visual elements that improve the user experience in the terminal environment.
+
 ## Feature Scope
 
-### XI. Minimal Feature Set (MANDATORY)
+### XII. Minimal Feature Set (MANDATORY)
 The application must support only the five basic features: add todo, view todos, update todo, delete todo, and mark todo as complete. No additional features, extensions, or functionality beyond these core features are permitted without explicit constitution amendment.
 
-### XII. No Manual Overrides (MANDATORY)
+### XIII. No Manual Overrides (MANDATORY)
 No manual coding outside of agent execution is permitted. All code changes must be made through Claude Code and Spec-Kit Plus workflows. Direct editing of files without agent execution is strictly prohibited.
 
 ## Quality Standards
 
-### XIII. Clean Code (MANDATORY)
+### XIV. Clean Code (MANDATORY)
 Code must be clean, well-documented, and maintainable. Follow PEP 8 standards and Python best practices. All functions, classes, and modules must include appropriate docstrings and type hints.
 
-### XIV. Error Handling (MANDATORY)
+### XV. Error Handling (MANDATORY)
 Proper error handling and input validation are required. The application must gracefully handle invalid inputs, edge cases, and unexpected conditions without crashing.
 
-### XV. Performance (MANDATORY)
+### XVI. Performance (MANDATORY)
 Performance considerations for in-memory storage must be maintained. Operations should remain efficient even as the number of todos grows.
 
 ## Development Workflow
@@ -85,4 +87,4 @@ All changes must:
 
 This constitution supersedes all other practices. Amendments require formal documentation, approval, and migration plan. All PRs and reviews must verify compliance with these principles before acceptance.
 
-**Version**: 2.0.0 | **Ratified**: 2025-12-30 | **Last Amended**: 2025-12-30
+**Version**: 2.1.0 | **Ratified**: 2025-12-30 | **Last Amended**: 2026-01-01

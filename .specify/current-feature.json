@@ -1,0 +1,6 @@
+{
+    "FEATURE_SPEC": "specs/2-todo-rich-ui-spec/spec.md",
+    "IMPL_PLAN": "specs/2-todo-rich-ui-spec/plan.md",
+    "SPECS_DIR": "specs/2-todo-rich-ui-spec",
+    "BRANCH": "2-todo-rich-ui-spec"
+}

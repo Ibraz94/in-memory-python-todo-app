@@ -1,0 +1,103 @@
+{
+  "name": "todo_operations",
+  "version": "1.0.0",
+  "description": "API contract for todo operations in the Rich UI Todo Application",
+  "endpoints": [
+    {
+      "name": "add_todo",
+      "description": "Add a new todo item with Rich UI validation",
+      "input": {
+        "type": "object",
+        "properties": {
+          "description": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 500
+          }
+        },
+        "required": ["description"]
+      },
+      "output": {
+        "type": "object",
+        "properties": {
+          "id": {"type": "integer"},
+          "description": {"type": "string"},
+          "completed": {"type": "boolean"},
+          "created_at": {"type": "string", "format": "date-time"}
+        }
+      }
+    },
+    {
+      "name": "list_todos",
+      "description": "Retrieve all todos for display in Rich table format",
+      "input": {},
+      "output": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {"type": "integer"},
+            "description": {"type": "string"},
+            "completed": {"type": "boolean"},
+            "created_at": {"type": "string", "format": "date-time"}
+          }
+        }
+      }
+    },
+    {
+      "name": "update_todo",
+      "description": "Update a todo description with Rich UI validation",
+      "input": {
+        "type": "object",
+        "properties": {
+          "id": {"type": "integer"},
+          "description": {"type": "string", "minLength": 1, "maxLength": 500}
+        },
+        "required": ["id", "description"]
+      },
+      "output": {
+        "type": "object",
+        "properties": {
+          "id": {"type": "integer"},
+          "description": {"type": "string"},
+          "completed": {"type": "boolean"},
+          "created_at": {"type": "string", "format": "date-time"}
+        }
+      }
+    },
+    {
+      "name": "mark_complete",
+      "description": "Mark a todo as complete with Rich UI confirmation",
+      "input": {
+        "type": "object",
+        "properties": {
+          "id": {"type": "integer"}
+        },
+        "required": ["id"]
+      },
+      "output": {
+        "type": "object",
+        "properties": {
+          "id": {"type": "integer"},
+          "description": {"type": "string"},
+          "completed": {"type": "boolean"},
+          "created_at": {"type": "string", "format": "date-time"}
+        }
+      }
+    },
+    {
+      "name": "delete_todo",
+      "description": "Delete a todo with Rich UI confirmation dialog",
+      "input": {
+        "type": "object",
+        "properties": {
+          "id": {"type": "integer"}
+        },
+        "required": ["id"]
+      },
+      "output": {
+        "type": "boolean"
+      }
+    }
+  ]
+}

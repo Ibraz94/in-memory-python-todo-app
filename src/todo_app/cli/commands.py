@@ -1,13 +1,20 @@
 """
-CLI command definitions for the Todo In-Memory Python Console Application.
+CLI command definitions for the Todo In-Memory Python Console Application with Rich UI.
 
 This module defines the command-line interface commands that map to
-the core functionality of the application.
+the core functionality of the application using Rich components for enhanced UI.
 """
-
 import argparse
 from typing import Any
-from todo_app.services.todo_service import TodoService
+from rich.console import Console
+from rich.prompt import Prompt, Confirm
+from rich.table import Table
+from rich.panel import Panel
+from rich.text import Text
+from rich import print
+
+from ..services.todo_service import TodoService
+from ..domain.exceptions import TodoNotFoundError, InvalidTodoError
 
 
 def add_command_parser(subparsers: argparse._SubParsersAction) -> None:
@@ -60,9 +67,9 @@ def delete_command_parser(subparsers: argparse._SubParsersAction) -> None:
     parser_delete.add_argument('id', type=int, help='The ID of the todo item to delete')
 
 
-def handle_add_command(args: argparse.Namespace, todo_service: TodoService) -> None:
+def handle_add_command(args: argparse.Namespace, todo_service: TodoService, console: Console) -> None:
     """
-    Handle the 'add' command execution.
+    Handle the 'add' command execution with Rich UI components.
 
     Implements the logic for adding a new todo item based on command-line arguments.
     """
@@ -70,34 +77,46 @@ def handle_add_command(args: argparse.Namespace, todo_service: TodoService) -> N
 
     try:
         new_todo = todo_service.add_todo(description)
-        print(f"Added todo with ID {new_todo.id}: {new_todo.description}")
+        print(f"[green]+[/green] Added todo with ID [bold]{new_todo.id}[/bold]: {new_todo.description}")
+    except InvalidTodoError as e:
+        print(f"[red]X Error adding todo:[/red] {e}")
     except Exception as e:
-        print(f"Error adding todo: {e}")
+        print(f"[red]X Unexpected error adding todo:[/red] {e}")
 
 
-def handle_list_command(args: argparse.Namespace, todo_service: TodoService) -> None:
+def handle_list_command(args: argparse.Namespace, todo_service: TodoService, console: Console) -> None:
     """
-    Handle the 'list' command execution.
+    Handle the 'list' command execution with Rich UI components.
 
     Implements the logic for listing all todo items based on command-line arguments.
     """
-    todos = todo_service.list_todos()
+    try:
+        todos = todo_service.list_todos()
 
-    if not todos:
-        print("No todos found.")
-        return
+        if not todos:
+            print("[yellow]No todos found.[/yellow]")
+            return
 
-    print("ID\tStatus\tDescription")
-    print("--\t------\t-----------")
+        # Create a Rich table for displaying todos
+        table = Table(title="Todo List")
+        table.add_column("ID", style="dim", width=5)
+        table.add_column("Status", width=8)
+        table.add_column("Description", min_width=20)
 
-    for todo in todos:
-        status = "✓" if todo.completed else "○"
-        print(f"{todo.id}\t{status}\t{todo.description}")
+        for todo in todos:
+            status = "[green]DONE[/green]" if todo.completed else "[red]TODO[/red]"
+            description = "[strikethrough]" + todo.description if todo.completed else todo.description
+            table.add_row(str(todo.id), status, description)
+
+        console.print(table)
+
+    except Exception as e:
+        print(f"[red]X Error listing todos:[/red] {e}")
 
 
-def handle_update_command(args: argparse.Namespace, todo_service: TodoService) -> None:
+def handle_update_command(args: argparse.Namespace, todo_service: TodoService, console: Console) -> None:
     """
-    Handle the 'update' command execution.
+    Handle the 'update' command execution with Rich UI components.
 
     Implements the logic for updating a todo item based on command-line arguments.
     """
@@ -105,35 +124,53 @@ def handle_update_command(args: argparse.Namespace, todo_service: TodoService) -
 
     try:
         updated_todo = todo_service.update_todo(args.id, description)
-        print(f"Updated todo with ID {updated_todo.id}: {updated_todo.description}")
+        print(f"[green]+[/green] Updated todo with ID [bold]{updated_todo.id}[/bold]: {updated_todo.description}")
+    except TodoNotFoundError as e:
+        print(f"[red]X Error updating todo:[/red] {e}")
+    except InvalidTodoError as e:
+        print(f"[red]X Error updating todo:[/red] {e}")
     except Exception as e:
-        print(f"Error updating todo: {e}")
+        print(f"[red]X Unexpected error updating todo:[/red] {e}")
 
 
-def handle_complete_command(args: argparse.Namespace, todo_service: TodoService) -> None:
+def handle_complete_command(args: argparse.Namespace, todo_service: TodoService, console: Console) -> None:
     """
-    Handle the 'complete' command execution.
+    Handle the 'complete' command execution with Rich UI components.
 
     Implements the logic for marking a todo as complete based on command-line arguments.
     """
     try:
         completed_todo = todo_service.mark_complete(args.id)
-        print(f"Marked todo with ID {completed_todo.id} as complete: {completed_todo.description}")
+        print(f"[green]+[/green] Marked todo with ID [bold]{completed_todo.id}[/bold] as complete: {completed_todo.description}")
+    except TodoNotFoundError as e:
+        print(f"[red]X Error marking todo as complete:[/red] {e}")
     except Exception as e:
-        print(f"Error marking todo as complete: {e}")
+        print(f"[red]X Unexpected error marking todo as complete:[/red] {e}")
 
 
-def handle_delete_command(args: argparse.Namespace, todo_service: TodoService) -> None:
+def handle_delete_command(args: argparse.Namespace, todo_service: TodoService, console: Console) -> None:
     """
-    Handle the 'delete' command execution.
+    Handle the 'delete' command execution with Rich UI components.
 
     Implements the logic for deleting a todo item based on command-line arguments.
     """
     try:
-        success = todo_service.delete_todo(args.id)
-        if success:
-            print(f"Deleted todo with ID {args.id}")
+        # First, get the todo to show its details before deletion
+        todo = todo_service.get_todo(args.id)
+
+        # Confirm deletion with Rich confirmation dialog
+        confirm = Confirm.ask(f"[yellow]Are you sure you want to delete todo '{todo.description}'?[/yellow]")
+
+        if confirm:
+            success = todo_service.delete_todo(args.id)
+            if success:
+                print(f"[green]+[/green] Deleted todo with ID [bold]{args.id}[/bold]")
+            else:
+                print(f"[red]X[/red] Failed to delete todo with ID [bold]{args.id}[/bold]")
         else:
-            print(f"Todo with ID {args.id} not found")
+            print("[blue]Deletion cancelled.[/blue]")
+
+    except TodoNotFoundError as e:
+        print(f"[red]X Error deleting todo:[/red] {e}")
     except Exception as e:
-        print(f"Error deleting todo: {e}")
+        print(f"[red]X Unexpected error deleting todo:[/red] {e}")

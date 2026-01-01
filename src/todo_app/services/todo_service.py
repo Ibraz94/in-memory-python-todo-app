@@ -7,10 +7,10 @@ add, view, update, delete, and mark complete.
 """
 
 from typing import List, Optional
-from todo_app.domain.models import TodoItem
-from todo_app.domain.exceptions import TodoNotFoundError, InvalidTodoError
-from todo_app.services.memory_store import MemoryStore
-from todo_app.utils.validators import validate_todo_description, validate_todo_id
+from ..domain.models import TodoItem
+from ..domain.exceptions import TodoNotFoundError, InvalidTodoError
+from .memory_store import MemoryStore
+from ..utils.validators import validate_todo_description, validate_todo_id
 
 
 class TodoService:

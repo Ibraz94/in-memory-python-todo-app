@@ -21,13 +21,13 @@ wheels/
 *.egg
 MANIFEST
 
+temp_auto_push.bat
 # Virtual environments
 .venv/
 venv/
 ENV/
 
 # IDE
-.vscode/
 .idea/
 *.swp
 *.swo
@@ -43,3 +43,8 @@ Thumbs.db
 
 # Environment variables
 .env*
+
+# Todo data files
+todos.csv.gitignore
+temp_interactive_push.bat
+branch_structure.json
