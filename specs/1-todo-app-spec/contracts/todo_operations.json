@@ -1,0 +1,192 @@
+{
+  "todo_operations_contract": {
+    "version": "1.0.0",
+    "operations": {
+      "add": {
+        "description": "Add a new todo item to the in-memory list",
+        "input": {
+          "type": "object",
+          "properties": {
+            "description": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 1000,
+              "description": "The description of the todo item to add"
+            }
+          },
+          "required": ["description"]
+        },
+        "output": {
+          "type": "object",
+          "properties": {
+            "success": {
+              "type": "boolean",
+              "description": "Whether the operation was successful"
+            },
+            "todo_id": {
+              "type": "integer",
+              "description": "The ID of the newly created todo item"
+            },
+            "message": {
+              "type": "string",
+              "description": "A message describing the result of the operation"
+            }
+          }
+        },
+        "errors": [
+          {
+            "code": "INVALID_INPUT",
+            "description": "The provided description is empty or invalid"
+          }
+        ]
+      },
+      "list": {
+        "description": "Retrieve all todo items from the in-memory list",
+        "input": {
+          "type": "object",
+          "properties": {}
+        },
+        "output": {
+          "type": "object",
+          "properties": {
+            "success": {
+              "type": "boolean",
+              "description": "Whether the operation was successful"
+            },
+            "todos": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "description": "The unique identifier of the todo item"
+                  },
+                  "description": {
+                    "type": "string",
+                    "description": "The description of the todo item"
+                  },
+                  "completed": {
+                    "type": "boolean",
+                    "description": "Whether the todo item is completed"
+                  }
+                },
+                "required": ["id", "description", "completed"]
+              },
+              "description": "The list of all todo items"
+            }
+          }
+        }
+      },
+      "update": {
+        "description": "Update the description of an existing todo item",
+        "input": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer",
+              "minimum": 1,
+              "description": "The ID of the todo item to update"
+            },
+            "description": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 1000,
+              "description": "The new description for the todo item"
+            }
+          },
+          "required": ["id", "description"]
+        },
+        "output": {
+          "type": "object",
+          "properties": {
+            "success": {
+              "type": "boolean",
+              "description": "Whether the operation was successful"
+            },
+            "message": {
+              "type": "string",
+              "description": "A message describing the result of the operation"
+            }
+          }
+        },
+        "errors": [
+          {
+            "code": "TODO_NOT_FOUND",
+            "description": "The specified todo ID does not exist"
+          },
+          {
+            "code": "INVALID_INPUT",
+            "description": "The provided description is empty or invalid"
+          }
+        ]
+      },
+      "complete": {
+        "description": "Mark a todo item as complete",
+        "input": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer",
+              "minimum": 1,
+              "description": "The ID of the todo item to mark as complete"
+            }
+          },
+          "required": ["id"]
+        },
+        "output": {
+          "type": "object",
+          "properties": {
+            "success": {
+              "type": "boolean",
+              "description": "Whether the operation was successful"
+            },
+            "message": {
+              "type": "string",
+              "description": "A message describing the result of the operation"
+            }
+          }
+        },
+        "errors": [
+          {
+            "code": "TODO_NOT_FOUND",
+            "description": "The specified todo ID does not exist"
+          }
+        ]
+      },
+      "delete": {
+        "description": "Delete a todo item from the in-memory list",
+        "input": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer",
+              "minimum": 1,
+              "description": "The ID of the todo item to delete"
+            }
+          },
+          "required": ["id"]
+        },
+        "output": {
+          "type": "object",
+          "properties": {
+            "success": {
+              "type": "boolean",
+              "description": "Whether the operation was successful"
+            },
+            "message": {
+              "type": "string",
+              "description": "A message describing the result of the operation"
+            }
+          }
+        },
+        "errors": [
+          {
+            "code": "TODO_NOT_FOUND",
+            "description": "The specified todo ID does not exist"
+          }
+        ]
+      }
+    }
+  }
+}

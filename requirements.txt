@@ -1,0 +1,7 @@
+# Python 3.13+ required as specified in constitution
+# Core dependencies for the Todo In-Memory Python Console Application
+
+# Testing
+pytest>=8.0.0
+
+# Optional dependencies (none required for basic functionality)

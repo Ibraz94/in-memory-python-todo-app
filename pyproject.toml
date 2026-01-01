@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "todo-in-memory-app"
+version = "0.1.0"
+description = "A terminal-based todo application that stores all todos in memory"
+readme = "README.md"
+requires-python = ">=3.13"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = []
+
+[project.scripts]
+todo-app = "todo_app.cli.app:main"
+
+[tool.setuptools]
+packages = ["todo_app"]
+package-dir = {"" = "src"}
+
+[tool.uv]
+# Configuration for UV package manager as required by constitution
